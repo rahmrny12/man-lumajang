@@ -113,11 +113,38 @@
             visibility: hidden;
             position: absolute;
         }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1050;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay .spinner-border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3rem;
+            height: 3rem;
+        }
     </style>
 </head>
 <!-- sidebar-collapse -->
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-open">
+    <div class="loading-overlay">
+        <div class="spinner-border text-light" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    
     <div class="wrapper">
 
         @include('template_backend.navbar')

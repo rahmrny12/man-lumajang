@@ -226,9 +226,12 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/absensi-kehadiran-siswa', 'AbsensiKehadiranController@index')->name('absensi-kehadiran.index');
   Route::get('/absensi-kehadiran-siswa/kelas/{id}', 'AbsensiKehadiranController@kelas')->name('absensi-kehadiran.kelas');
   Route::get('/absensi-kehadiran/guru', 'AbsensiKehadiranController@guru')->name('absensi-kehadiran.guru');
+
+  Route::get('/finger/check-user', 'FingerController@checkUser');
 });
 
 Route::post('/absensi-kehadiran', 'AbsensiKehadiranController@store')->name('absensi-kehadiran.store');
+Route::post('/absensi-kehadiran/check-finger', 'AbsensiKehadiranController@check_finger')->name('absensi-kehadiran.store');
 Route::get('/absensi/{type}', 'AbsensiKehadiranController@create')->name('absensi-kehadiran.landing-absen');
 Route::post('/absensi/search', 'AbsensiKehadiranController@search_by_rfid');
 Route::delete('/absensi-kehadiran/siswa/{id}', 'AbsensiKehadiranController@destroy_siswa')->name('absensi-kehadiran.destroy-siswa');

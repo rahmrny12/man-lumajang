@@ -16,6 +16,8 @@ use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AbsensiSiswaExport;
 use App\Exports\AbsensiGuruExport;
+use App\FingerLog;
+use App\FingerSiswa;
 
 class AbsensiKehadiranController extends Controller
 {
@@ -185,6 +187,20 @@ class AbsensiKehadiranController extends Controller
         } else {
             return response()->json(['type' => 'error', 'message' => 'Siswa tidak ditemukan']);
         }
+    }
+
+    public function check_finger(Request $request)
+    {
+        $finger_log = FingerLog::where('user_id', $request->id)
+            ->where('is_confirmed', false)->latest();
+
+        if ($finger_log->exists()) {
+            $finger_log->update(['is_confirmed' => true]);
+            
+            return response()->json(['type' => 'success', 'message' => 'Sidik jari berhasil diverifikasi', 'data' => $finger_log]);
+        }
+
+        return response()->json(['type' => 'error', 'message' => 'Sidik jari tidak sesuai'], 400);
     }
 
     /**

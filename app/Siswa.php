@@ -11,6 +11,12 @@ class Siswa extends Model
     use SoftDeletes;
 
     protected $fillable = ['no_induk', 'nis', 'nama_siswa', 'kelas_id', 'jk', 'telp', 'tmp_lahir', 'tgl_lahir', 'foto', 'rfid', 'no_telp'];
+    protected $with = ['fingers'];
+
+    public function fingers()
+    {
+        return $this->hasMany('App\FingerSiswa', 'user_id');
+    }
 
     public function absen_siswa()
     {

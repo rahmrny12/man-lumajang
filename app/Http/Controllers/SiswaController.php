@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {

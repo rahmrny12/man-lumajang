@@ -14,8 +14,8 @@ class AddNotificationStatusToAbsenKehadiranTable extends Migration
     public function up()
     {
         Schema::table('absen_kehadiran_siswa', function (Blueprint $table) {
-            $table->boolean('notifikasi_absen_masuk');
-            $table->boolean('notifikasi_absen_pulang');
+            $table->boolean('notifikasi_absen_masuk')->default(false);
+            $table->boolean('notifikasi_absen_pulang')->default(false);
         });
     }
 
