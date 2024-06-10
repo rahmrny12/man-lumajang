@@ -125,10 +125,15 @@
                 let user_id = $(this).data("id");
                 let nama_siswa = $(this).data("nama");
 
-                let url_register = btoa(`{{ url('register_finger.php?user_id=${user_id}') }}`);
-                // let url_register = btoa("<?= url('/finger/register?user_id=1') ?>");
-                let link_finger = `finspot:FingerspotReg;${url_register}`
+                // let url_register = btoa(`{{ url('register_finger.php?user_id=${user_id}') }}`);
+                // // let url_register = btoa("<?= url('/finger/register?user_id=1') ?>");
+                // let link_finger = `finspot:FingerspotReg;${url_register}`
 
+                let url_getpegawai	= 'http://localhost:8008/get_siswa.php';
+                let url_regisfinger	= 'http://localhost:8008/process_register_new.php';
+
+                let link_finger = "FingeRryo:registrasi;"+url_getpegawai+";"+url_regisfinger+";R920J08467;G566E169E6BE96B954092DVP;0C563C7698A50A7;"+user_id+";"+nama_siswa;
+                
                 window.location.href = link_finger;
                 user_register(user_id, nama_siswa)
             }

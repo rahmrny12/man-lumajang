@@ -41,10 +41,18 @@ if (strtoupper($vStamp) == strtoupper($salt)) {
     $fid   = $data->fid;
 
     if ($fid == 0) {
+        DB::select(DB::raw(
+            "UPDATE siswa SET finger_data='$regTemp' WHERE id='$user_id'"
+        ));
+        
         $res['result'] = DB::select(DB::raw(
             "INSERT INTO finger_siswa SET user_id='$user_id', finger_id=" . ($fid + 1) . ", finger_data='$regTemp'"
         ));
     } else {
+        DB::select(DB::raw(
+            "UPDATE siswa SET finger_data='$regTemp' WHERE id='$user_id'"
+        ));
+        
         $res['result'] = DB::select(DB::raw(
             "UPDATE finger_siswa SET finger_data='$regTemp' WHERE finger_id=$fid AND user_id='$user_id'"
         ));

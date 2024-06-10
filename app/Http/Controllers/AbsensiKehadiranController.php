@@ -18,6 +18,7 @@ use App\Exports\AbsensiSiswaExport;
 use App\Exports\AbsensiGuruExport;
 use App\FingerLog;
 use App\FingerSiswa;
+use Illuminate\Support\Facades\DB;
 
 class AbsensiKehadiranController extends Controller
 {
@@ -56,7 +57,7 @@ class AbsensiKehadiranController extends Controller
      */
     public function create($type)
     {
-        return view('absensi_kehadiran.absen', compact('type'));
+        return view('absensi_kehadiran.absen');
     }
 
     public function store(Request $request)

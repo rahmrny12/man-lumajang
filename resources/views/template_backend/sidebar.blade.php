@@ -6,11 +6,12 @@
         ->whereHas('role', function ($query) {
             return $query->whereIn('role', json_decode(auth()->user()->roles));
         })
+        ->orderBy('id')
         ->get();
     // $user_menu = Role::with('menu')
     //     ->where('role', auth()->user()->role)
     //     ->get();
-    // dd($user_menu);
+    // dd($user_menu->pluck('title'));
 @endphp
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">

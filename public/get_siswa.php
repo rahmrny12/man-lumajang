@@ -1,6 +1,5 @@
 <?php
 
-use App\FingerSiswa;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,7 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 // Run the application to setup the container and resolve the kernel
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $response = $kernel->handle(
-	$request = Illuminate\Http\Request::capture()
+    $request = Illuminate\Http\Request::capture()
 );
 
 // Set up Eloquent ORM
@@ -22,16 +21,11 @@ $capsule->addConnection(config('database.connections.mysql'));
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$user_id = $request->user_id;
-$time_limit_ver = 15;
-$finger_data = DB::select(DB::raw(
-	"SELECT * FROM siswa WHERE user_id=$user_id"
-))[0]->finger_data;
+$siswa = DB::select(DB::raw(
+    "SELECT id, finger_data FROM siswa"
+));
 
-$process_verification_url = config('app.url') . '/process_verification.php';
-$getac_url = config('app.url') . '/getac.php';
-
-echo "$user_id;$finger_data;SecurityKey;$time_limit_ver;$process_verification_url;$getac_url;extraParams";
+echo json_encode(['data' => $siswa]);
 
 // Terminate the application
 $kernel->terminate($request, $response);

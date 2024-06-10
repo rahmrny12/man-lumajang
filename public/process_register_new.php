@@ -1,6 +1,5 @@
 <?php
 
-use App\FingerSiswa;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,7 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 // Run the application to setup the container and resolve the kernel
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $response = $kernel->handle(
-	$request = Illuminate\Http\Request::capture()
+    $request = Illuminate\Http\Request::capture()
 );
 
 // Set up Eloquent ORM
@@ -22,16 +21,25 @@ $capsule->addConnection(config('database.connections.mysql'));
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$user_id = $request->user_id;
-$time_limit_ver = 15;
-$finger_data = DB::select(DB::raw(
-	"SELECT * FROM siswa WHERE user_id=$user_id"
-))[0]->finger_data;
+$data = explode(";", $request->registrasitemp);
+$user_id = $data[0];
+$regTemp = $data[1];
+// $data = json_encode($data);
 
-$process_verification_url = config('app.url') . '/process_verification.php';
-$getac_url = config('app.url') . '/getac.php';
+// $res['result'] = DB::select(DB::raw(
+//     "INSERT INTO finger_logs SET data='$data' "
+// ));
 
-echo "$user_id;$finger_data;SecurityKey;$time_limit_ver;$process_verification_url;$getac_url;extraParams";
+$result = DB::select(DB::raw(
+    "UPDATE siswa SET finger_data='$regTemp', finger_id='1' WHERE id='$user_id'"
+));
+
+$data = [
+    'result' => "true",
+	'message' => "Data Berhasil Diedit"
+];
+
+echo json_encode($data);
 
 // Terminate the application
 $kernel->terminate($request, $response);

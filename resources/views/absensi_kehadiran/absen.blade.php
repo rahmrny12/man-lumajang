@@ -105,14 +105,14 @@
 
         function loginFinger(userId) {
             let urlVerification = btoa(`{{ url('verification.php?user_id=${userId}') }}`)
-            let linkFinger = `finspot:FingerspotVer;${urlVerification}`
+            let linkFinger = `Fingerryo:absen;http://localhost:8008/get_siswa.php;http://localhost:8008/process_absen.php;R920J08467;G566E169E6BE96B954092DVP;0C563C7698A50A7;5;Absensi Siswa;04-06-2024`
 
             window.location.href = linkFinger;
 
             return new Promise((resolve, reject) => {
-                var limit = 3;
+                var limit = 5;
                 var ct = 0;
-                var timeout = 5000;
+                var timeout = 3000;
 
                 const intervalId = setInterval(() => {
                     $.ajax({
