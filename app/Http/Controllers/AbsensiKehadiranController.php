@@ -66,11 +66,13 @@ class AbsensiKehadiranController extends Controller
             'keyword' => 'required',
         ]);
 
-        $is_siswa = true;
-        $user = Siswa::with('kelas')->where('rfid', $request->keyword)->first();
-        if (!$user) {
+        $user = null;
+        if ($request->type == 'siswa') {
+            $is_siswa = true;
+            $user = Siswa::with('kelas')->where('id', $request->keyword)->first();
+        } else {
             $is_siswa = false;
-            $user = Guru::where('rfid', $request->keyword)->first();
+            $user = Guru::where('id', $request->keyword)->first();
         }
 
         if ($user) {
@@ -186,30 +188,42 @@ class AbsensiKehadiranController extends Controller
 
             return response()->json(['type' => 'success', 'message' => 'Absensi masuk berhasil']);
         } else {
-            return response()->json(['type' => 'error', 'message' => 'Siswa tidak ditemukan']);
+            return response()->json(['type' => 'error', 'message' => 'Siswa tidak ditemukan', 404]);
         }
     }
 
     public function check_finger(Request $request)
     {
-        $finger_log = FingerLog::where('user_id', $request->id)
-            ->where('is_confirmed', false)->latest();
-
-        if ($finger_log->exists()) {
-            $finger_log->update(['is_confirmed' => true]);
-            
-            return response()->json(['type' => 'success', 'message' => 'Sidik jari berhasil diverifikasi', 'data' => $finger_log]);
+        $finger_log_query = FingerLog::where('is_confirmed', false)->latest();
+        if ($finger_log_query->exists()) {
+            $finger_log = $finger_log_query->first();
+            $finger_log_query->update(['is_confirmed' => true]);
+            return response()->json(['type' => 'success', 'message' => 'Sidik jari berhasil diverifikasi', 'data' => $finger_log->fresh()]);
         }
 
         return response()->json(['type' => 'error', 'message' => 'Sidik jari tidak sesuai'], 400);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\AbsensiKehadiran  $absensiKehadiran
-     * @return \Illuminate\Http\Response
-     */
+    public function search_by_id(Request $request)
+    {
+        $request->validate([
+            'keyword' => 'required',
+            'type' => 'required',
+        ]);
+
+        $user = null;
+        if ($request->type == 'siswa') {
+            $user = Siswa::with('kelas')->where('id', $request->keyword)->first();
+        } else if ($request->type == 'guru') {
+            $user = Guru::where('id', $request->keyword)->first();
+        }
+
+        if (!$user)
+            return response()->json(['type' => 'error', 'message' => 'Data tidak ditemukan'], 404);
+
+        return response()->json($user);
+    }
+    
     public function search_by_rfid(Request $request)
     {
         $request->validate([
@@ -221,7 +235,7 @@ class AbsensiKehadiranController extends Controller
             $user = Guru::where('rfid', $request->keyword)->first();
 
         if (!$user)
-            return response()->json(['type' => 'error', 'message' => 'Siswa tidak ditemukan'], 404);
+            return response()->json(['type' => 'error', 'message' => 'Data tidak ditemukan'], 404);
 
         return response()->json($user);
     }

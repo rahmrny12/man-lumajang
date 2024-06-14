@@ -30,11 +30,12 @@ $user_name = DB::select(DB::raw(
 
 $currentDateTime = now()->format('Y-m-d H:i:s');
 
-$result_logs = DB::select(DB::raw(
-    "INSERT INTO finger_logs SET name='$user_name', user_id=$user_id"
-));
+$result = DB::insert(DB::raw("INSERT INTO finger_logs SET name='$user_name', user_id=$user_id"));
+// $result_logs = DB::select(DB::raw(
+//     "INSERT INTO finger_logs SET name='$user_name', user_id=$user_id"
+// ));
 
-$res['result'] = $result_logs ? 'true' : 'false';
+$res['result'] = $result ? 'true' : 'false';
 $res['message'] = 'Absen berhasil';
 $res['nama_pegawai'] = 'tes';
 

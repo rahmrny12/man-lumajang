@@ -233,7 +233,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/absensi-kehadiran', 'AbsensiKehadiranController@store')->name('absensi-kehadiran.store');
 Route::post('/absensi-kehadiran/check-finger', 'AbsensiKehadiranController@check_finger')->name('absensi-kehadiran.store');
 Route::get('/absensi/{type}', 'AbsensiKehadiranController@create')->name('absensi-kehadiran.landing-absen');
-Route::post('/absensi/search', 'AbsensiKehadiranController@search_by_rfid');
+Route::post('/absensi/search', 'AbsensiKehadiranController@search_by_id');
 Route::delete('/absensi-kehadiran/siswa/{id}', 'AbsensiKehadiranController@destroy_siswa')->name('absensi-kehadiran.destroy-siswa');
 Route::delete('/absensi-kehadiran/guru/{id}', 'AbsensiKehadiranController@destroy_guru')->name('absensi-kehadiran.destroy-guru');
 Route::get('/absensi-kehadiran/siswa/export-excel/{id}', 'AbsensiKehadiranController@export_excel_siswa')->name('absensi-kehadiran.siswa.export-excel');
